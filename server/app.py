@@ -13,7 +13,7 @@ warnings.filterwarnings('ignore', category=UserWarning)
 load_dotenv()
 
 # Get port from environment variable, default to 5000 if not set
-PORT = int(os.getenv('PORT', 10000))
+PORT = int(os.getenv('PORT', 5000))
 
 # Initialize Flask app
 app = Flask(__name__)
