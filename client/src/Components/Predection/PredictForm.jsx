@@ -1,4 +1,13 @@
 import React, { useState } from 'react';
+import setosaImg from '../../assets/setosa.jpg';
+import versicolorImg from '../../assets/versicolore.jpg';
+import virginicaImg from '../../assets/virginica.jpg';
+
+const speciesImages = {
+  'Iris Setosa': setosaImg,
+  'Iris Versicolor': versicolorImg,
+  'Iris Virginica': virginicaImg,
+};
 
 const PredictForm = () => {
   const [inputs, setInputs] = useState({ 
@@ -12,6 +21,7 @@ const PredictForm = () => {
   const [loading, setLoading] = useState(false);
 
   const classNames = ['Iris Setosa', 'Iris Versicolor', 'Iris Virginica'];
+  
 
   const API_URL = import.meta.env.DEV 
     ? 'http://localhost:5000/predict'
@@ -49,10 +59,10 @@ const PredictForm = () => {
   };
 
   return (
-    <div className="predict-form bg-[#13005A] min-h-screen p-6 md:p-20 flex flex-col items-center">
+    <div className="predict-form bg-[#13005A] h-screen p-6 md:p-10 flex flex-col items-center">
       <h2 className='text-white font-bold pt-16 text-2xl md:text-4xl text-center'>Iris Species Predictor</h2>
       <form
-        className='flex flex-col gap-8 mt-12 w-full max-w-4xl items-center text-white' 
+        className='flex flex-col gap-8 mt-8 w-full max-w-4xl items-center text-white' 
         onSubmit={handleSubmit}>
         
         <div className='grid grid-cols-2 sm:grid-cols-4 gap-6 w-full justify-center'>
@@ -84,24 +94,30 @@ const PredictForm = () => {
       {error && <div className="mt-4 text-red-400">Error: {error}</div>}
       
       <div className="prediction-result w-full mt-10 text-white flex flex-col items-center p-4 md:p-6 bg-blue-500 bg-opacity-80 rounded-xl">
-        <h3 className='text-xl font-semibold mb-4'>Prediction Result:</h3>
+        <h3 className='text-xl bg-[#13005A] bg-opacity-70 p-2 rounded-lg font-semibold mb-4'>Prediction Result:</h3>
         {result && (
           <div className='flex flex-col md:flex-row gap-6 items-center justify-around w-full'>
-            <div>
+            <div className='bg-[#13005A] bg-opacity-70 p-4 rounded-xl'>
               <h4 className='font-semibold'>Species Image:</h4>
-              <img src="" alt="Species" className='max-w-[150px] rounded-md' />
+              <img
+                src={result && speciesImages[result.species]}
+                alt={result.species}
+                className='max-w-[150px] rounded-md shadow-lg border-green-500'
+              />
             </div>
-            <div>
-              <p>Species: <strong>{result.species}</strong></p>
+            <div className='bg-[#13005A] bg-opacity-70 p-4 rounded-xl'>
+              <p>Species: <strong className='text-green-500'>{result.species}</strong></p>
               <p>Confidence: {(result.confidence * 100).toFixed(1)}%</p>
             </div>
-            <div className="probability-distribution">
-              <h4 className='font-semibold'>Probabilities:</h4>
-              {Object.entries(result.probabilities).map(([species, prob]) => (
-                <div key={species}>
-                  {species}: {(prob * 100).toFixed(1)}%
-                </div>
-              ))}
+            <div className='bg-[#13005A] bg-opacity-70 p-4 rounded-xl'>
+              <div className="probability-distribution">
+                <h4 className='font-semibold'>Probabilities:</h4>
+                {Object.entries(result.probabilities).map(([species, prob]) => (
+                  <div key={species}>
+                    {species}: {(prob * 100).toFixed(1)}%
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
