@@ -59,45 +59,49 @@ const PredictForm = () => {
   };
 
   return (
-    <div className="predict-form bg-[#13005A] h-screen p-6 md:p-10 flex flex-col items-center">
-      <h2 className='text-white font-bold pt-16 text-2xl md:text-4xl text-center'>Iris Species Predictor</h2>
+      <div className="predict-form bg-[#212121] h-screen flex flex-col items-center">
+      <h2 className='text-white font-bold pt-12 sm:pt-14 md:pt-20 text-2xl md:text-4xl text-center'>Iris Species Predictor</h2>
       <form
-        className='flex flex-col gap-8 mt-8 w-full max-w-4xl items-center text-white' 
+        className='gap-8 my-4 md:mt-8 w-full max-w-4xl text-white bg-gradient-to-tr from-[#2973B2] via-[#13005A] to-[#2973B2] p-[1.8px] rounded-xl' 
         onSubmit={handleSubmit}>
+          
+        <div className='bg-[#303030] flex flex-col gap-4 md:gap-8 max-w-4xl items-center rounded-xl py-2 md:py-6 px-6 md:px-10'>
+          <div className='grid grid-cols-2 sm:grid-cols-4 gap-6 w-full'>
+            {['sepal_length', 'sepal_width', 'petal_length', 'petal_width'].map((name, index) => (
+              <div className="form-group flex flex-col" key={name}>
+                <label className='mb-1 capitalize text-sm tracking-wide'>{name.replace('_', ' ')}:</label>
+                <input
+                  className='rounded-md bg-black bg-opacity-40 border border-blue-500 p-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
+                  type="number"
+                  step="0.1"
+                  name={name}
+                  placeholder="(cm)"
+                  value={inputs[name]}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            ))}
+          </div>
         
-        <div className='grid grid-cols-2 sm:grid-cols-4 gap-6 w-full justify-center'>
-          {['sepal_length', 'sepal_width', 'petal_length', 'petal_width'].map((name, index) => (
-            <div className="form-group flex flex-col" key={name}>
-              <label className='mb-1 capitalize'>{name.replace('_', ' ')}:</label>
-              <input
-                className='rounded-md bg-black bg-opacity-20 border-blue-500 border-t-2 border-b-2 p-2 text-white'
-                type="number"
-                step="0.1"
-                name={name}
-                placeholder="(cm)"
-                value={inputs[name]}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          ))}
+          <button
+            className=' bg-opacity-60 bg-gradient-to-tr from-[#2973B2] via-[#13005A] to-[#2973B2] font-semibold hover:bg-gradient-to-tl hover:from-[#2973B2] hover:via-[#13005A] hover:to-[#2973B2] rounded-full px-6 p-2' 
+            type="submit"
+            disabled={loading}>
+            {loading ? 'Predicting...' : 'Predict Species'}
+          </button>
         </div>
 
-        <button
-          className='mt-4 bg-opacity-60 bg-gradient-to-tr from-[#2973B2] via-[#13005A] to-[#2973B2] font-semibold hover:bg-gradient-to-tl hover:from-[#2973B2] hover:via-[#13005A] hover:to-[#2973B2] rounded-full px-6 py-2' 
-          type="submit"
-          disabled={loading}>
-          {loading ? 'Predicting...' : 'Predict Species'}
-        </button>
       </form>
 
       {error && <div className="mt-4 text-red-400">Error: {error}</div>}
       
-      <div className="prediction-result w-full mt-10 text-white flex flex-col items-center p-4 md:p-6 bg-blue-500 bg-opacity-80 rounded-xl">
-        <h3 className='text-xl bg-[#13005A] bg-opacity-70 p-2 rounded-lg font-semibold mb-4'>Prediction Result:</h3>
+      <div className="prediction-result w-full bg-gradient-to-tr from-green-500 via-[#13005A] to-green-500 p-[1.8px] rounded-xl">
+        <div className=' w-full  text-white flex flex-col items-center p-4 md:p-6 bg-[#303030]  rounded-xl'>
+        <h3 className='text-xl bg-[#414141] p-2 rounded-lg font-semibold mb-4'>Prediction Result:</h3>
         {result && (
-          <div className='flex flex-col md:flex-row gap-6 items-center justify-around w-full'>
-            <div className='bg-[#13005A] bg-opacity-70 p-4 rounded-xl'>
+          <div className='md:flex grid grid-cols-2 md:flex-row gap-6 items-center justify-around w-full'>
+            <div className='bg-[#414141] bg-opacity-70 p-4 rounded-xl'>
               <h4 className='font-semibold'>Species Image:</h4>
               <img
                 src={result && speciesImages[result.species]}
@@ -105,22 +109,33 @@ const PredictForm = () => {
                 className='max-w-[150px] rounded-md shadow-lg border-green-500'
               />
             </div>
-            <div className='bg-[#13005A] bg-opacity-70 p-4 rounded-xl'>
+            
+            <div className='bg-[#414141] bg-opacity-70 p-4 rounded-xl'>
               <p>Species: <strong className='text-green-500'>{result.species}</strong></p>
               <p>Confidence: {(result.confidence * 100).toFixed(1)}%</p>
             </div>
-            <div className='bg-[#13005A] bg-opacity-70 p-4 rounded-xl'>
-              <div className="probability-distribution">
-                <h4 className='font-semibold'>Probabilities:</h4>
-                {Object.entries(result.probabilities).map(([species, prob]) => (
-                  <div key={species}>
-                    {species}: {(prob * 100).toFixed(1)}%
+            <div className='bg-[#414141] bg-opacity-70 p-4 rounded-xl'>
+            <div className="probability-distribution">
+              <h4 className='font-semibold'>Probabilities:</h4>
+              {Object.entries(result.probabilities).map(([species, prob]) => (
+                <div key={species} className="mb-2">
+                  <div className="flex justify-between text-sm mb-1">
+                    <span>{species}</span>
+                    <span>{(prob * 100).toFixed(1)}%</span>
                   </div>
-                ))}
-              </div>
+                  <div className="w-full bg-gray-200 rounded h-1">
+                    <div
+                      className="bg-green-500 h-1 rounded"
+                      style={{ width: `${prob * 100}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
             </div>
           </div>
         )}
+        </div>
       </div>
     </div>
   );

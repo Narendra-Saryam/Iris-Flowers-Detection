@@ -5,7 +5,7 @@ import Footer from './Components/Footer/Footer'
 
 const App = () => {
   return (
-    <div className='bg-[#171d32] h-auto w-full overflow-hidden'>
+    <div className='bg-[#212121] h-auto w-full overflow-hidden'>
       <Navebar />
       <PredictForm />
       <Footer />
