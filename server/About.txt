@@ -1,1 +1,17 @@
 Thia is Iris Flower Classification Model (updating...)
+Flowers Length and Width :
+Iris Setosa : 
+        The sepal length of Iris setosa is typically not greater than 6.0 cm 
+        The sepal width is not less than 2.3 cm.
+        The petal length of Iris setosa is not greater than 2 cm 
+        The petal width is not greater than 0.6 cm.
+Iris virginica : 
+        The sepal length for Iris virginica typically ranges from 4.9 to 7.0 cm
+        The sepal width ranges from 2.0 to 3.0 cm.
+        The petal length ranges from 4.0 to 6.9 cm
+        The petal width ranges from 1.4 to 2.5 cm.
+Iris versicolor:
+        The sepal length typically ranges from 4.9 to 7.0 cm.
+        The sepal width ranges from 2.0 to 3.4 cm.
+        The petal length is usually between 3.0 and 5.1 cm.
+        The petal width is generally between 1.0 and 1.8 cm.
